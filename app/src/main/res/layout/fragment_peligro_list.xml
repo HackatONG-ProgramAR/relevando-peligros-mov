@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_weight="0"
-        android:text="Agregar Peligro"
+        android:text="@string/registrar_peligro_list_registrar_button"
         android:textColor="@android:color/white" />
 </LinearLayout>
