@@ -1,9 +1,52 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/peligro_detail"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="org.relevandopeligros.activity.PeligroDetailFragment" />
+    android:fillViewport="false"
+    tools:context="org.relevandopeligros.activity.PeligroDetailFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/peligro_detail_title"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="{{Title}}"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/peligro_detail_description"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/peligro_detail_title"
+            android:layout_alignRight="@id/peligro_detail_title"
+            android:layout_below="@id/peligro_detail_title"
+            android:text="{{Description}}"
+            android:textIsSelectable="true" />
+
+        <GridView
+            android:id="@+id/peligro_detail_grid_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/peligro_detail_title"
+            android:layout_alignRight="@id/peligro_detail_title"
+            android:layout_below="@id/peligro_detail_description"
+            android:layout_margin="5dp"
+            android:columnWidth="100dp"
+            android:drawSelectorOnTop="true"
+            android:gravity="center"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp" />
+    </RelativeLayout>
+</ScrollView>

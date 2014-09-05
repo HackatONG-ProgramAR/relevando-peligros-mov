@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.relevandopeligros.activity.dummy.DummyContent;
 import org.relevandopeligros.data.Peligro;
 import org.relevandopeligros.relevandopeligrosapp.R;
 
@@ -52,6 +50,7 @@ public class PeligroListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+    private List<Peligro> peligroList;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -61,8 +60,9 @@ public class PeligroListFragment extends ListFragment {
     public interface Callbacks {
         /**
          * Callback for when an item has been selected.
+         * @param peligro
          */
-        public void onItemSelected(String id);
+        public void onPeligroSelected(Peligro peligro);
     }
 
     /**
@@ -71,7 +71,7 @@ public class PeligroListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onPeligroSelected(Peligro peligro) {
         }
     };
 
@@ -85,6 +85,8 @@ public class PeligroListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getActivity().getIntent().getExtras();
+        peligroList = (List<Peligro>)bundle.get(PeligroListActivity.PELIGRO_LIST);
 
 
     }
@@ -104,8 +106,6 @@ public class PeligroListFragment extends ListFragment {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
 
-        Bundle bundle = getActivity().getIntent().getExtras();
-        List<Peligro> peligroList = (List<Peligro>)bundle.get(PeligroListActivity.PELIGRO_LIST);
         setListAdapter(new PeligroListAdapter(getActivity(), peligroList));
     }
 
@@ -135,7 +135,9 @@ public class PeligroListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected("");
+
+        Peligro peligro = (Peligro)getListAdapter().getItem(position);
+        mCallbacks.onPeligroSelected(peligro);
     }
 
     @Override
@@ -275,5 +277,8 @@ public class PeligroListFragment extends ListFragment {
                 ButterKnife.inject(this, view);
             }
         }
+
     }
+
+
 }

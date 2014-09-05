@@ -1,10 +1,10 @@
 package org.relevandopeligros.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
-
 import android.view.MenuItem;
+
 import org.relevandopeligros.relevandopeligrosapp.R;
 
 /**
@@ -39,8 +39,8 @@ public class PeligroDetailActivity extends Activity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(PeligroDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(PeligroDetailFragment.ARG_ITEM_ID));
+            arguments.putSerializable(PeligroDetailFragment.PELIGRO_SELECTED,
+                    getIntent().getSerializableExtra(PeligroDetailFragment.PELIGRO_SELECTED));
             PeligroDetailFragment fragment = new PeligroDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -59,7 +59,9 @@ public class PeligroDetailActivity extends Activity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, PeligroListActivity.class));
+
+//            navigateUpTo(new Intent(this, PeligroListActivity.class));
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);

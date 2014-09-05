@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.app.Activity;
 
 
+import org.relevandopeligros.data.Peligro;
 import org.relevandopeligros.relevandopeligrosapp.R;
 
 /**
@@ -58,15 +59,16 @@ public class PeligroListActivity extends Activity
     /**
      * Callback method from {@link PeligroListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
+     * @param peligro
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onPeligroSelected(Peligro peligro) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(PeligroDetailFragment.ARG_ITEM_ID, id);
+            arguments.putSerializable(PeligroDetailFragment.PELIGRO_SELECTED, peligro);
             PeligroDetailFragment fragment = new PeligroDetailFragment();
             fragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -77,7 +79,7 @@ public class PeligroListActivity extends Activity
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, PeligroDetailActivity.class);
-            detailIntent.putExtra(PeligroDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(PeligroDetailFragment.PELIGRO_SELECTED, peligro);
             startActivity(detailIntent);
         }
     }
