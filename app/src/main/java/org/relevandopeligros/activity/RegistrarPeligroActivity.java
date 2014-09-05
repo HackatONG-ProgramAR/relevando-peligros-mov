@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -50,6 +51,7 @@ public class RegistrarPeligroActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     /**
      * A placeholder fragment containing a simple view.
@@ -67,7 +69,7 @@ public class RegistrarPeligroActivity extends Activity {
             return rootView;
         }
 
-        static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
         @OnClick(R.id.take_picture)
         void dispatchTakePictureIntent() {
@@ -81,6 +83,15 @@ public class RegistrarPeligroActivity extends Activity {
         public void onDestroyView() {
             super.onDestroyView();
             ButterKnife.reset(this);
+        }
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//            mImageView.setImageBitmap(imageBitmap);
         }
     }
 
