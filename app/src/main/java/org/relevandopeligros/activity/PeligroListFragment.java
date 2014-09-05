@@ -3,11 +3,13 @@ package org.relevandopeligros.activity;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 /**
  * A list fragment representing a list of Peligros. This fragment
@@ -75,7 +78,8 @@ public class PeligroListFragment extends ListFragment {
         }
     };
 
-    /**
+
+        /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
@@ -93,6 +97,7 @@ public class PeligroListFragment extends ListFragment {
 
     public View onCreateView(android.view.LayoutInflater inflater, android.view.ViewGroup container, android.os.Bundle savedInstanceState){
         View view = View.inflate(getActivity(), R.layout.fragment_peligro_list,container);
+        ButterKnife.inject(this,view);
         return  view;
     }
 
@@ -236,19 +241,16 @@ public class PeligroListFragment extends ListFragment {
                 holder = new ViewHolder(view);
                 view.setTag(holder);
             }
-
             Peligro peligro = peligros.get(position);
-
 
             holder.peligroTitle.setText(peligro.getTitulo());
             holder.peligroDescription.setText(peligro.getDescripcion());
             if (!peligro.getImagenes().isEmpty()){
                 Picasso.with(context).load(peligro.getImagenes().get(0).getPath()).into(holder.peligroImage);
             }
-
-
             return view;
         }
+
 
         @Override
         public int getItemViewType(int i) {
@@ -278,6 +280,17 @@ public class PeligroListFragment extends ListFragment {
             }
         }
 
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.reset(this);
+    }
+
+    @OnClick(R.id.add_peligro)
+    void addPeligro(Button addButton) {
+        Intent detailIntent = new Intent(getActivity(), RegistrarPeligroActivity.class);
+        startActivity(detailIntent);
     }
 
 
