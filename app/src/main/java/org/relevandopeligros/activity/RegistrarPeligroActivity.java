@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,11 +19,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.squareup.okhttp.OkHttpClient;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
 import org.relevandopeligros.data.Peligro;
 import org.relevandopeligros.relevandopeligrosapp.R;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -149,21 +166,34 @@ public class RegistrarPeligroActivity extends Activity {
             ImmutableList.Builder<Peligro.ImagenPeligro> peligros = ImmutableList.builder();
             if (photo1 != null) {
                 Peligro.ImagenPeligro imagenPeligro = new Peligro.ImagenPeligro();
-                imagenPeligro.setPath(photo1.toString());
-                peligros.add(imagenPeligro);
+                try {
+                    imagenPeligro.setPath(RegistrarPeligroActivity.convertInputStreamToString(photo1));
+                    peligros.add(imagenPeligro);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (photo2 != null) {
                 Peligro.ImagenPeligro imagenPeligro = new Peligro.ImagenPeligro();
-                imagenPeligro.setPath(photo2.toString());
-                peligros.add(imagenPeligro);
+                try {
+                    imagenPeligro.setPath(RegistrarPeligroActivity.convertInputStreamToString(photo2));
+                    peligros.add(imagenPeligro);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             if (photo3 != null) {
                 Peligro.ImagenPeligro imagenPeligro = new Peligro.ImagenPeligro();
-                imagenPeligro.setPath(photo3.toString());
-                peligros.add(imagenPeligro);
+
+                try {
+                    imagenPeligro.setPath(RegistrarPeligroActivity.convertInputStreamToString(photo3));
+                    peligros.add(imagenPeligro);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             peligro.setImagenes(peligros.build());
-                        
+
         }
 
 
@@ -226,6 +256,83 @@ public class RegistrarPeligroActivity extends Activity {
                 }
             }
         }
+
+    }
+
+
+//    private class GsonUploader extends AsyncTask<Void, Void, String> {
+//
+//        private final Peligro peligro;
+//
+//        public GsonUploader(Peligro peligro){
+//            this.peligro = peligro;
+//        }
+//
+//        @Override
+//        protected String doInBackground(Void... params) {
+//            // TODO Auto-generated method stub
+//            String result = "";
+//
+//            HttpResponse response;
+//
+//
+//            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//            gson.toJson(peligro,Peligro.class);
+//
+//
+//            HttpClient httpClient = new DefaultHttpClient();
+//
+//            // using POST method
+//            HttpPost httpPostRequest = new HttpPost("URl");
+//
+////            StringEntity se = new StringEntity( peligro.toString());
+////            se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+////            post.setEntity(se);
+////            response = client.execute(post);
+////            /*Checking response */
+////            /*if(response!=null){
+////                InputStream in = response.getEntity().getContent(); //Get the data in the entity
+////*/
+////            int statusCode = response.getStatusLine().getStatusCode();
+////
+////            // return result;
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            // TODO Auto-generated method stub
+//            super.onPreExecute();
+////            uploadStatus.setText("Uploading image to server");
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            // TODO Auto-generated method stub
+//            super.onPostExecute(result);
+////            uploadStatus.setText(result);
+//        }
+//
+//    }
+
+    static String convertInputStreamToString(Bitmap bitmap)
+            throws IOException {
+
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos);
+        byte[] bitmapdata = bos.toByteArray();
+        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+
+
+        BufferedReader bufferedReader = new BufferedReader(
+                new InputStreamReader(bs));
+        String line = "";
+        String result = "";
+        while ((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        bos.close();
+        return result;
 
     }
 
