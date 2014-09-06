@@ -88,4 +88,26 @@ public class Peligro implements Serializable{
 
         private String path;
     }
+
+    public static class ImagenPeligroUpload implements Serializable{
+        private String titulo;
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
+
+        public String getTitulo() {
+            return titulo;
+        }
+
+        public void setTitulo(String titulo) {
+            this.titulo = titulo;
+        }
+
+        private String path;
+    }
 }

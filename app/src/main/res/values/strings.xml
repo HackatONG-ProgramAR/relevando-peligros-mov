@@ -10,5 +10,6 @@
     <string name="title_activity_registrar_peligro">RegistrarPeligroActivity</string>
     <string name="registrar_peligro_titulo_peligro">Titulo Peligro</string>
     <string name="registrar_peligro_list_registrar_button">Agregar Peligro</string>
+    <string name="registrar_peligro_agregar_peligro">Agregar Peligro</string>
 
 </resources>
