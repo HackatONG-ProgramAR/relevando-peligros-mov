@@ -245,9 +245,15 @@ public class PeligroListFragment extends ListFragment {
 
             holder.peligroTitle.setText(peligro.getTitulo());
             holder.peligroDescription.setText(peligro.getDescripcion());
-            if (!peligro.getImagenes().isEmpty()){
-                Picasso.with(context).load(peligro.getImagenes().get(0).getPath()).into(holder.peligroImage);
+
+            if (!peligro.getImagenes().isEmpty()) {
+                for (Peligro.ImagenPeligro img : peligro.getImagenes()) {
+                    if (img.getTitulo().equalsIgnoreCase("mobileThumbnail")) {
+                        Picasso.with(context).load(img.getPath()).into(holder.peligroImage);
+                    }
+                }
             }
+
             return view;
         }
 
