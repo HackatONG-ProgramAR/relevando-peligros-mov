@@ -83,6 +83,19 @@ public class SplashActivity extends Activity {
             List<Peligro> peligroList = Collections.emptyList();
 
             try {
+
+                /*Request request = new Request.Builder()
+                        .url("http://192.168.0.10:8080/risk-service/peligro?page=0&size=20")
+                        .build();
+
+                Call call = client.newCall(request);
+                Response response = call.execute();
+
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                }
+                InputStream is = response.body().byteStream();*/
+
                 InputStream is = getContext().getResources().getAssets().open("master-1.json");
                 PeligrosResponse peligrosResponse = gson.fromJson(new InputStreamReader(is), PeligrosResponse.class);
                 peligroList = peligrosResponse.getInfo().getPeligros();
